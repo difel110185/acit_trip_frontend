@@ -28,7 +28,6 @@ function TripDetails(props) {
                     )
                 })}
             </Accordion>
-
         </div>
     )
 }

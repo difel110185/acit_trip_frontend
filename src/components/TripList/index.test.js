@@ -3,6 +3,12 @@ import { render } from '@testing-library/react'
 import TripList from './index'
 import {fakeData} from "./fakedata"
 
+jest.mock('react-router-dom', () => ({
+    useHistory: () => ({
+        push: jest.fn(),
+    }),
+}));
+
 test('Renders empty list', () => {
     let { queryByText } = render(<TripList trips={[]} />)
     let title = queryByText("No trips found")
