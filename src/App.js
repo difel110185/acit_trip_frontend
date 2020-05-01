@@ -8,6 +8,7 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import TripDetails from "./components/TripDetails";
 
 function App() {
     const initialState = {
@@ -26,7 +27,6 @@ function App() {
     useEffect(() => {
         getTrips()
             .then((response) => {
-                console.log(response.data)
                 dispatch({type: 'setTrips', trips: response.data})
             })
             .catch((error) => {
@@ -48,6 +48,9 @@ function App() {
                 <Switch>
                     <Route exact path="/trips">
                         <TripList trips={state.trips} />
+                    </Route>
+                    <Route path="/trips/:id">
+                        <TripDetails />
                     </Route>
                 </Switch>
             </div>
