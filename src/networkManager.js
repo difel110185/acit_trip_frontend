@@ -1,10 +1,8 @@
-import {fakeData as trips} from "./components/TripList/fakedata"
+import axios from "axios"
 import {fakeData as trip} from "./components/TripDetails/fakedata"
 
 export function getTrips() {
-    return new Promise((resolutionFunc, rejectionFunc) => {
-        resolutionFunc({data: trips});
-    });
+    return axios.get('/trips');
 }
 
 export function getTrip(id) {
