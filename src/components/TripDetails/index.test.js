@@ -33,7 +33,7 @@ test("Renders the city names", () => {
 test("Renders the city dates", () => {
     let { queryByText } = render(<TripDetails data={fakeData} />)
     fakeData.cities.forEach((city) => {
-        let dates = queryByText(`${(new Date(city.date_of_arrival)).toLocaleString()} - ${(new Date(city.date_of_departure)).toLocaleString()}`)
+        let dates = queryByText(`${(new Date(city.datetime_of_arrival)).toLocaleString()} - ${(new Date(city.datetime_of_departure)).toLocaleString()}`)
         expect(dates).toBeInTheDocument()
     })
 })

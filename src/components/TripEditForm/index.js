@@ -8,15 +8,15 @@ import Button from "react-bootstrap/Button"
 import { useHistory } from "react-router-dom";
 import Image from "react-bootstrap/Image";
 
-function TripAddForm(props) {
+function TripEditForm(props) {
     const history = useHistory();
 
     const initialState = {
-        name: undefined,
-        description: undefined,
-        image: undefined,
-        country_id: undefined,
-        cities: []
+        name: props.trip.name,
+        description: props.trip.description,
+        image: props.trip.image,
+        country_id: props.trip.country.id,
+        cities: props.trip.cities
     }
 
     const reducer = (state, action) => {
@@ -41,17 +41,17 @@ function TripAddForm(props) {
         <Form>
             <Form.Group controlId="name">
                 <Form.Label>Name</Form.Label>
-                <Form.Control as="input" data-testid="name" onChange={(event) => dispatch({type: 'changeName', name: event.target.value})}/>
+                <Form.Control as="input" data-testid="name" onChange={(event) => dispatch({type: 'changeName', name: event.target.value})} value={state.name}/>
             </Form.Group>
 
             <Form.Group controlId="description">
                 <Form.Label>Description</Form.Label>
-                <Form.Control as="textarea" data-testid="description" onChange={(event) => dispatch({type: 'changeDescription', description: event.target.value})}/>
+                <Form.Control as="textarea" data-testid="description" onChange={(event) => dispatch({type: 'changeDescription', description: event.target.value})} value={state.description}/>
             </Form.Group>
 
             <Form.Group controlId="country_id">
                 <Form.Label>Country</Form.Label>
-                <Form.Control as="select" data-testid="country_id" onChange={(event) => dispatch({type: 'changeCountryId', country_id: event.target.value})}>
+                <Form.Control as="select" data-testid="country_id" onChange={(event) => dispatch({type: 'changeCountryId', country_id: event.target.value})} value={state.country_id}>
                     <option></option>
                     {props.countries.map((country) => {
                         return <option key={country.id} value={country.id}>{country.name}</option>
@@ -125,7 +125,7 @@ function TripAddForm(props) {
                 props.onSubmit(state)
                 history.push(`/trips`)
             }}>
-                Create trip
+                Update trip
             </Button>
 
             <Button variant="danger" onClick={() => {
@@ -137,4 +137,4 @@ function TripAddForm(props) {
     )
 }
 
-export default TripAddForm
+export default TripEditForm

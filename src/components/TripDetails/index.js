@@ -8,7 +8,7 @@ function TripDetails(props) {
     return (
         <div>
             <h1>{props.data.name}</h1>
-            <Image  src={`data:image/jpeg;base64,${props.data.image}`} alt={props.data.name} fluid />
+            <Image src={`data:image/jpeg;base64,${props.data.image}`} alt={props.data.name} fluid />
             <p>{props.data.description}</p>
 
             <h2>Cities</h2>
@@ -21,7 +21,7 @@ function TripDetails(props) {
                             </Accordion.Toggle>
                             <Accordion.Collapse eventKey={city.id}>
                                 <Card.Body>
-                                    {(new Date(city.date_of_arrival)).toLocaleString()} - {(new Date(city.date_of_departure)).toLocaleString()}
+                                    {(new Date(city.datetime_of_arrival)).toLocaleString()} - {(new Date(city.datetime_of_departure)).toLocaleString()}
                                 </Card.Body>
                             </Accordion.Collapse>
                         </Card>

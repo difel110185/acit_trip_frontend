@@ -1,6 +1,6 @@
 import React, {useReducer, useEffect} from 'react';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import {getTrips, getTrip, addTrip, getCountries} from "./mockedNetworkManager";
+import {getTrips, getTrip, addTrip, editTrip, getCountries} from "./mockedNetworkManager";
 import TripList from "./components/TripList";
 import {
     BrowserRouter as Router,
@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import TripDetails from "./components/TripDetails";
 import TripAddForm from "./components/TripAddForm";
+import TripEditForm from "./components/TripEditForm";
 
 function App() {
     const initialState = {
@@ -56,6 +57,18 @@ function App() {
                     <Route exact path="/trips/add">
                         <TripAddForm countries={state.countries} onSubmit={(trip) => addTrip(trip)} />
                     </Route>
+                    <Route exact path="/trips/:id/edit" render={routeProps => {
+                        if (state.trip)
+                            return <TripEditForm countries={state.countries} trip={state.trip} onSubmit={(trip) => editTrip(trip)} />
+
+                        getTrip(routeProps.match.params.id)
+                            .then((response) => {
+                                dispatch({type: 'setTrip', trip: response.data})
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            })
+                    }} />
                     <Route path="/trips/:id" render={routeProps => {
                         if (state.trip)
                             return <TripDetails data={state.trip} />
@@ -67,8 +80,7 @@ function App() {
                             .catch((error) => {
                                 console.log(error);
                             })
-                    }}>
-                    </Route>
+                    }} />
                 </Switch>
             </div>
         </Router>

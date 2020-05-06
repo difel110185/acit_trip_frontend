@@ -10,6 +10,7 @@ export function getTrips() {
 }
 
 export function getTrip(id) {
+    console.log(id)
     return new Promise((resolutionFunc, rejectionFunc) => {
         resolutionFunc({data: trip});
     });
@@ -22,6 +23,13 @@ export function getCountries() {
 }
 
 export function addTrip(trip) {
+    console.log(trip)
+    return new Promise((resolutionFunc, rejectionFunc) => {
+        resolutionFunc();
+    });
+}
+
+export function editTrip(trip) {
     console.log(trip)
     return new Promise((resolutionFunc, rejectionFunc) => {
         resolutionFunc();
