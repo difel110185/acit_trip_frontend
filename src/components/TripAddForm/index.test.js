@@ -3,6 +3,12 @@ import { render } from '@testing-library/react'
 import TripAddForm from './index'
 import {fakeData as countries} from "./fakedata"
 
+jest.mock('react-router-dom', () => ({
+    useHistory: () => ({
+        push: jest.fn(),
+    }),
+}));
+
 test('Renders the name label', () => {
     let { queryByLabelText } = render(<TripAddForm countries={countries}/>)
     let label = queryByLabelText("Name")
