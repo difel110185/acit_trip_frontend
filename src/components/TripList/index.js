@@ -7,7 +7,7 @@ function TripList(props) {
     return (
         <CardColumns>
             {(!props.trips || props.trips.length === 0) && <h1>No trips found</h1>}
-            {props.trips && props.trips.map((trip) => <TripListItem key={trip.id} data={trip} />)}
+            {props.trips && props.trips.map((trip) => <TripListItem key={trip.id} data={trip} onDelete={props.onDelete} />)}
         </CardColumns>
     )
 }

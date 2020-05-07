@@ -1,6 +1,6 @@
 import React, {useReducer, useEffect} from 'react';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import {getTrips, getTrip, addTrip, editTrip, getCountries} from "./mockedNetworkManager";
+import {getTrips, getTrip, addTrip, editTrip, deleteTrip, getCountries} from "./mockedNetworkManager";
 import TripList from "./components/TripList";
 import {
     BrowserRouter as Router,
@@ -11,7 +11,7 @@ import TripDetails from "./components/TripDetails";
 import TripAddForm from "./components/TripAddForm";
 import TripEditForm from "./components/TripEditForm";
 
-function App() {
+function App(props) {
     const initialState = {
         trips: [],
         trip: undefined,
@@ -52,7 +52,17 @@ function App() {
             <div>
                 <Switch>
                     <Route exact path="/trips">
-                        <TripList trips={state.trips} />
+                        <TripList trips={state.trips} onDelete={(id) => {
+                            deleteTrip(id).then(() => {
+                                getTrips()
+                                    .then((response) => {
+                                        dispatch({type: 'setTrips', trips: response.data})
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    })
+                            })
+                        }} />
                     </Route>
                     <Route exact path="/trips/add">
                         <TripAddForm countries={state.countries} onSubmit={(trip) => addTrip(trip)} />

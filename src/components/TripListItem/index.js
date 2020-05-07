@@ -13,7 +13,12 @@ function TripListItem(props) {
             <Card.Body>
                 <Card.Title>{props.data.name}</Card.Title>
                 <Card.Text>{props.data.description}</Card.Text>
-                <Button variant="primary" onClick={() => history.push(`/trips/${props.data.id}`)}>Details</Button>
+                <Button variant="primary" onClick={() => history.push(`/trips/${props.data.id}`)} style={{marginRight: 10}}>Details</Button>
+                <Button variant="warning" onClick={() => history.push(`/trips/${props.data.id}/edit`)} style={{marginRight: 10}}>Edit</Button>
+                <Button variant="danger" onClick={() => {
+                    props.onDelete(props.data.id)
+                    history.push(`/trips`)
+                }}>Delete</Button>
             </Card.Body>
         </Card>
     )
