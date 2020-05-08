@@ -30,14 +30,6 @@ function App(props) {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     useEffect(() => {
-        getTrips()
-            .then((response) => {
-                dispatch({type: 'setTrips', trips: response.data})
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-
         getCountries()
             .then((response) => {
                 dispatch({type: 'setCountries', countries: response.data})
@@ -51,8 +43,16 @@ function App(props) {
         <Router>
             <div>
                 <Switch>
-                    <Route exact path="/trips">
-                        <TripList trips={state.trips} onDelete={(id) => {
+                    <Route exact path="/trips" render={routeProps => {
+                        getTrips()
+                            .then((response) => {
+                                dispatch({type: 'setTrips', trips: response.data})
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            })
+
+                        return <TripList trips={state.trips} onDelete={(id) => {
                             deleteTrip(id).then(() => {
                                 getTrips()
                                     .then((response) => {
@@ -63,7 +63,7 @@ function App(props) {
                                     })
                             })
                         }} />
-                    </Route>
+                    }} />
                     <Route exact path="/trips/add">
                         <TripAddForm countries={state.countries} onSubmit={(trip) => addTrip(trip)} />
                     </Route>

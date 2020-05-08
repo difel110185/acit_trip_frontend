@@ -23,7 +23,7 @@ function TripEditForm(props) {
         switch (action.type) {
             case 'changeName': return {...state, name: action.name};
             case 'changeDescription': return {...state, description: action.description};
-            case 'changeCountryId': return {...state, country_id: action.country_id};
+            case 'changeCountryId': return {...state, country_id: parseInt(action.country_id)};
             case 'changeImage': return {...state, image: action.image};
             case 'addCity': return {...state, cities: [...state.cities, action.city]};
             case 'removeCity': return {...state, cities: state.cities.filter((city) => !action.cityKeys.includes(city.name) )};

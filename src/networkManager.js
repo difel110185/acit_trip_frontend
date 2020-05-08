@@ -13,11 +13,7 @@ export function getCountries() {
 }
 
 export function addTrip(trip) {
-    console.log("ADD TRIP")
-    console.log(trip)
-    return new Promise((resolutionFunc, rejectionFunc) => {
-        resolutionFunc();
-    });
+    return axios.post('/trips', trip);
 }
 
 export function editTrip(trip) {
