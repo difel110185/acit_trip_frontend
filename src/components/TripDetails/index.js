@@ -30,7 +30,12 @@ function TripDetails(props) {
                                     </Accordion.Toggle>
                                     <Accordion.Collapse eventKey={city.id}>
                                         <Card.Body>
-                                            {(new Date(city.datetime_of_arrival)).toLocaleString()} - {(new Date(city.datetime_of_departure)).toLocaleString()}
+                                            <div>
+                                                From {(new Date(city.datetime_of_arrival)).toLocaleString()} to {(new Date(city.datetime_of_departure)).toLocaleString()}
+                                            </div>
+                                            <div>
+                                                Temperature: {(city.temperature_in_kelvin - 273.15).toFixed(0)}°C
+                                            </div>
                                         </Card.Body>
                                     </Accordion.Collapse>
                                 </Card>

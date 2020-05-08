@@ -39,7 +39,17 @@ test("Renders the city names", () => {
 test("Renders the city dates", () => {
     let { queryByText } = render(<TripDetails data={fakeData} />)
     fakeData.cities.forEach((city) => {
-        let dates = queryByText(`${(new Date(city.datetime_of_arrival)).toLocaleString()} - ${(new Date(city.datetime_of_departure)).toLocaleString()}`)
+        console.log(`From ${(new Date(city.datetime_of_arrival)).toLocaleString()} to ${(new Date(city.datetime_of_departure)).toLocaleString()}`)
+        let dates = queryByText(`From ${(new Date(city.datetime_of_arrival)).toLocaleString()} to ${(new Date(city.datetime_of_departure)).toLocaleString()}`)
         expect(dates).toBeInTheDocument()
+    })
+})
+
+test("Renders the city temperatures", () => {
+    let { queryByText } = render(<TripDetails data={fakeData} />)
+    fakeData.cities.forEach((city) => {
+        console.log(`Temperature: ${(city.temperature_in_kelvin - 273.15).toFixed(0)}°C`)
+        let temperature = queryByText(`Temperature: ${(city.temperature_in_kelvin - 273.15).toFixed(0)}°C`)
+        expect(temperature).toBeInTheDocument()
     })
 })
