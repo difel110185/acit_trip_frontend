@@ -21,9 +21,5 @@ export function editTrip(trip) {
 }
 
 export function deleteTrip(id) {
-    console.log("DELETE TRIP")
-    console.log(id)
-    return new Promise((resolutionFunc, rejectionFunc) => {
-        resolutionFunc();
-    });
+    return axios.delete(`/trips/${id}`);
 }

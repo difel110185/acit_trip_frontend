@@ -47,6 +47,16 @@ function App(props) {
             })
     }
 
+    const fetchTrip = (id) => {
+        getTrip(id)
+            .then((response) => {
+                dispatch({type: 'setTrip', trip: response.data})
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     useEffect(() => {
         fetchData()
 
@@ -71,15 +81,7 @@ function App(props) {
                             dispatch({type: 'unsetTrip'})
 
                         return <TripList trips={state.trips} onDelete={(id) => {
-                            deleteTrip(id).then(() => {
-                                getTrips()
-                                    .then((response) => {
-                                        dispatch({type: 'setTrips', trips: response.data})
-                                    })
-                                    .catch((error) => {
-                                        console.log(error);
-                                    })
-                            })
+                            deleteTrip(id).then(() => fetchData())
                         }} />
                     }} />
                     <Route exact path="/trips/add">
@@ -89,25 +91,13 @@ function App(props) {
                         if (state.trip)
                             return <TripEditForm countries={state.countries} trip={state.trip} onSubmit={(trip) => editTrip(trip).then(() => fetchData())} />
 
-                        getTrip(routeProps.match.params.id)
-                            .then((response) => {
-                                dispatch({type: 'setTrip', trip: response.data})
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            })
+                        fetchTrip(routeProps.match.params.id)
                     }} />
                     <Route path="/trips/:id" render={routeProps => {
                         if (state.trip)
                             return <TripDetails data={state.trip} />
 
-                        getTrip(routeProps.match.params.id)
-                            .then((response) => {
-                                dispatch({type: 'setTrip', trip: response.data})
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            })
+                        fetchTrip(routeProps.match.params.id)
                     }} />
                 </Switch>
             </div>

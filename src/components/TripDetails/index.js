@@ -3,8 +3,12 @@ import Image from "react-bootstrap/Image";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import {useHistory} from "react-router-dom";
 
 function TripDetails(props) {
+    const history = useHistory();
+
     if (!props.data)
         return <div>Loading...</div>
 
@@ -35,6 +39,12 @@ function TripDetails(props) {
                     </Accordion>
                 </div>
             }
+
+            <Button variant="danger" style={{marginTop: 20}} onClick={() => {
+                history.push(`/trips`)
+            }}>
+                Back
+            </Button>
         </div>
     )
 }
