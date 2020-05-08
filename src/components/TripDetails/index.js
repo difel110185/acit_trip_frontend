@@ -34,7 +34,7 @@ function TripDetails(props) {
                                                 From {(new Date(city.datetime_of_arrival)).toLocaleString()} to {(new Date(city.datetime_of_departure)).toLocaleString()}
                                             </div>
                                             <div>
-                                                Temperature: {(city.temperature_in_kelvin - 273.15).toFixed(0)}°C
+                                                Temperature: {(city.temperature_in_kelvin - 273.15).toFixed(0)}°C ({city.temp_desc})
                                             </div>
                                         </Card.Body>
                                     </Accordion.Collapse>
