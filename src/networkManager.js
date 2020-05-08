@@ -1,5 +1,4 @@
 import axios from "axios"
-import {fakeData as countries} from "./components/TripAddForm/fakedata";
 
 export function getTrips() {
     return axios.get('/trips');
@@ -10,10 +9,7 @@ export function getTrip(id) {
 }
 
 export function getCountries() {
-    console.log("GET COUNTRIES")
-    return new Promise((resolutionFunc, rejectionFunc) => {
-        resolutionFunc({data: countries});
-    });
+    return axios.get('/countries');
 }
 
 export function addTrip(trip) {
