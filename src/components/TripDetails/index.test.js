@@ -3,6 +3,12 @@ import { render } from '@testing-library/react'
 import TripDetails from './index'
 import {fakeData} from "./fakedata"
 
+jest.mock('react-router-dom', () => ({
+    useHistory: () => ({
+        push: jest.fn(),
+    }),
+}));
+
 test('Renders the name', () => {
     let { queryByText } = render(<TripDetails data={fakeData} />)
     let name = queryByText(fakeData.name)

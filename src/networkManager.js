@@ -1,12 +1,25 @@
 import axios from "axios"
-import {fakeData as trip} from "./components/TripDetails/fakedata"
 
 export function getTrips() {
     return axios.get('/trips');
 }
 
 export function getTrip(id) {
-    return new Promise((resolutionFunc, rejectionFunc) => {
-        resolutionFunc({data: trip});
-    });
+    return axios.get(`/trips/${id}`);
+}
+
+export function getCountries() {
+    return axios.get('/countries');
+}
+
+export function addTrip(trip) {
+    return axios.post('/trips', trip);
+}
+
+export function editTrip(trip) {
+    return axios.put(`/trips/${trip.id}`, trip);
+}
+
+export function deleteTrip(id) {
+    return axios.delete(`/trips/${id}`);
 }
