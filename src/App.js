@@ -13,6 +13,7 @@ import TripEditForm from "./components/TripEditForm";
 
 function App(props) {
     const initialState = {
+        loading: true,
         trips: [],
         trip: undefined,
         countries: []
@@ -20,8 +21,11 @@ function App(props) {
 
     const reducer = (state, action) => {
         switch (action.type) {
+            case 'load': return {...state, loading: true};
+            case 'loaded': return {...state, loading: false};
             case 'setTrips': return {...state, trips: action.trips};
             case 'setTrip': return {...state, trip: action.trip};
+            case 'unsetTrip': return {...state, trip: undefined};
             case 'setCountries': return {...state, countries: action.countries};
             default: throw new Error('Unexpected action: ' + action);
         }
@@ -29,7 +33,23 @@ function App(props) {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
+    const fetchData = () => {
+        dispatch({type: 'load'})
+
+        getTrips()
+            .then((response) => {
+                dispatch({type: 'setTrips', trips: response.data})
+                dispatch({type: 'unsetTrip'})
+                dispatch({type: 'loaded'})
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     useEffect(() => {
+        fetchData()
+
         getCountries()
             .then((response) => {
                 dispatch({type: 'setCountries', countries: response.data})
@@ -39,18 +59,16 @@ function App(props) {
             })
     }, [])
 
+    if (state.loading)
+        return <div>Loading...</div>
+
     return (
         <Router>
             <div>
                 <Switch>
                     <Route exact path="/trips" render={routeProps => {
-                        getTrips()
-                            .then((response) => {
-                                dispatch({type: 'setTrips', trips: response.data})
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            })
+                        if (state.trip)
+                            dispatch({type: 'unsetTrip'})
 
                         return <TripList trips={state.trips} onDelete={(id) => {
                             deleteTrip(id).then(() => {
@@ -65,11 +83,11 @@ function App(props) {
                         }} />
                     }} />
                     <Route exact path="/trips/add">
-                        <TripAddForm countries={state.countries} onSubmit={(trip) => addTrip(trip)} />
+                        <TripAddForm countries={state.countries} onSubmit={(trip) => addTrip(trip).then(() => fetchData())} />
                     </Route>
                     <Route exact path="/trips/:id/edit" render={routeProps => {
                         if (state.trip)
-                            return <TripEditForm countries={state.countries} trip={state.trip} onSubmit={(trip) => editTrip(trip)} />
+                            return <TripEditForm countries={state.countries} trip={state.trip} onSubmit={(trip) => editTrip(trip).then(() => fetchData())} />
 
                         getTrip(routeProps.match.params.id)
                             .then((response) => {

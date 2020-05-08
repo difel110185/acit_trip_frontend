@@ -103,7 +103,7 @@ function TripAddForm(props) {
                             return (
                                 <div>
                                     <input className={ `${editorClass}` } { ...attr } />
-                                    <em>Format: 2021-01-01 18:30</em>
+                                    <em>Format: 2021-01-01 18:30:00</em>
                                 </div>
                                 )
                         }
@@ -113,7 +113,7 @@ function TripAddForm(props) {
                             return (
                                 <div>
                                     <input className={ `${editorClass}` } { ...attr } />
-                                    <em>Format: 2021-01-01 18:30</em>
+                                    <em>Format: 2021-01-01 18:30:00</em>
                                 </div>
                             )
                         }

@@ -5,6 +5,9 @@ import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 
 function TripDetails(props) {
+    if (!props.data)
+        return <div>Loading...</div>
+
     return (
         <div>
             <h1>{props.data.name}</h1>

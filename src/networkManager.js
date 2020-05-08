@@ -17,11 +17,7 @@ export function addTrip(trip) {
 }
 
 export function editTrip(trip) {
-    console.log("EDIT TRIP")
-    console.log(trip)
-    return new Promise((resolutionFunc, rejectionFunc) => {
-        resolutionFunc();
-    });
+    return axios.put(`/trips/${trip.id}`, trip);
 }
 
 export function deleteTrip(id) {
