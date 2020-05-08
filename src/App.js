@@ -1,6 +1,6 @@
 import React, {useReducer, useEffect} from 'react';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import {getTrips, getTrip, addTrip, editTrip, deleteTrip, getCountries} from "./mockedNetworkManager";
+import {getTrips, getTrip, addTrip, editTrip, deleteTrip, getCountries} from "./networkManager";
 import TripList from "./components/TripList";
 import {
     BrowserRouter as Router,
