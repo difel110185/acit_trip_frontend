@@ -1,6 +1,6 @@
 import React, {useReducer, useEffect} from 'react';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import {getTrips, getTrip, addTrip, editTrip, deleteTrip, getCountries, login} from "./networkManager";
+import {getTrips, getTrip, addTrip, editTrip, deleteTrip, getCountries, login, addUser} from "./networkManager";
 import TripList from "./components/TripList";
 import {
     BrowserRouter as Router,
@@ -12,6 +12,7 @@ import TripDetails from "./components/TripDetails";
 import TripAddForm from "./components/TripAddForm";
 import TripEditForm from "./components/TripEditForm";
 import LoginForm from "./components/LoginForm";
+import UserAddForm from "./components/UserAddForm";
 
 function App(props) {
     const initialState = {
@@ -85,6 +86,24 @@ function App(props) {
         <Router>
             <div>
                 <Switch>
+                    <Route exact path="/register" render={routeProps => {
+                        if (state.loggedIn)
+                            return <Redirect to={{pathname: "/trips"}}/>
+
+                        return <UserAddForm onSubmit={(user) => {
+                            dispatch({type: 'load'})
+
+                            addUser(user).then((response) => {
+                                localStorage.setItem('token', response.data.bearer_token)
+
+                                dispatch({type: 'login'})
+                            }).catch(() => {
+                                dispatch({type: 'failLogin'})
+                            }).finally(() => {
+                                dispatch({type: 'loaded'})
+                            })
+                        }} />
+                    }} />
                     <Route exact path="/" render={routeProps => {
                         if (state.loggedIn)
                             return <Redirect to={{pathname: "/trips"}}/>

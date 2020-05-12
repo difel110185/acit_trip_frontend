@@ -39,3 +39,7 @@ export function deleteTrip(id) {
 export function login(email, password) {
     return axios.post('/login', {email, password})
 }
+
+export function addUser(user) {
+    return axios.post('/users', user)
+}

@@ -1,6 +1,7 @@
 import {fakeData as trips} from "./components/TripList/fakedata"
 import {fakeData as trip} from "./components/TripDetails/fakedata"
 import {fakeData as countries} from "./components/TripAddForm/fakedata"
+import axios from "axios";
 
 export function getTrips() {
     console.log("GET TRIPS")
@@ -54,6 +55,17 @@ export function login(email, password) {
     console.log(password)
     return new Promise((resolutionFunc, rejectionFunc) => {
         if (password === "123456")
+            resolutionFunc({data: {bearer_token: "ACCESS TOKEN XUXA"}});
+
+        rejectionFunc()
+    });
+}
+
+export function addUser(user) {
+    console.log("ADD USER")
+    console.log(user)
+    return new Promise((resolutionFunc, rejectionFunc) => {
+        if (user.password === "123456")
             resolutionFunc({data: {bearer_token: "ACCESS TOKEN XUXA"}});
 
         rejectionFunc()
