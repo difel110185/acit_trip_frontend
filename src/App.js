@@ -13,6 +13,7 @@ import TripAddForm from "./components/TripAddForm";
 import TripEditForm from "./components/TripEditForm";
 import LoginForm from "./components/LoginForm";
 import UserAddForm from "./components/UserAddForm";
+import Button from "react-bootstrap/Button";
 
 function App(props) {
     const initialState = {
@@ -84,6 +85,10 @@ function App(props) {
 
     return (
         <Router>
+            {state.loggedIn && <Button style={{marginBottom: 20}} onClick={() => {
+                dispatch({type: 'logout'})
+            }}>Logout</Button>}
+
             <div>
                 <Switch>
                     <Route exact path="/register" render={routeProps => {

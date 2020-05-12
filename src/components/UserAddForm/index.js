@@ -3,11 +3,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Form from "react-bootstrap/Form";
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import Button from "react-bootstrap/Button"
-import { useHistory } from "react-router-dom";
 
 function UserAddForm(props) {
-    const history = useHistory();
-
     const initialState = {
         name: undefined,
         email: undefined,

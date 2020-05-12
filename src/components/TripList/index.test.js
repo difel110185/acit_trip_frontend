@@ -11,7 +11,7 @@ jest.mock('react-router-dom', () => ({
 
 test('Renders empty list', () => {
     let { queryByText } = render(<TripList trips={[]} />)
-    let title = queryByText("Loading...")
+    let title = queryByText("No trips found.")
     expect(title).toBeInTheDocument()
 })
 

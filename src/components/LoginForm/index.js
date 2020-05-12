@@ -3,12 +3,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Form from "react-bootstrap/Form";
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import Button from "react-bootstrap/Button"
-import { useHistory } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 
 function LoginForm(props) {
-    const history = useHistory();
-
     const initialState = {
         email: undefined,
         password: undefined
