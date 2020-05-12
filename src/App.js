@@ -1,26 +1,33 @@
 import React, {useReducer, useEffect} from 'react';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import {getTrips, getTrip, addTrip, editTrip, deleteTrip, getCountries} from "./networkManager";
+import {getTrips, getTrip, addTrip, editTrip, deleteTrip, getCountries, login} from "./networkManager";
 import TripList from "./components/TripList";
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route,
+    Redirect
 } from "react-router-dom";
 import TripDetails from "./components/TripDetails";
 import TripAddForm from "./components/TripAddForm";
 import TripEditForm from "./components/TripEditForm";
+import LoginForm from "./components/LoginForm";
 
 function App(props) {
     const initialState = {
-        loading: true,
+        loading: false,
         trips: [],
         trip: undefined,
+        loggedIn: false,
+        failedLogin: false,
         countries: []
     }
 
     const reducer = (state, action) => {
         switch (action.type) {
+            case 'login': return {...state, loggedIn: true};
+            case 'failLogin': return {...state, failedLogin: true};
+            case 'logout': return {...state, loggedIn: false};
             case 'load': return {...state, loading: true};
             case 'loaded': return {...state, loading: false};
             case 'setTrips': return {...state, trips: action.trips};
@@ -58,16 +65,18 @@ function App(props) {
     }
 
     useEffect(() => {
-        fetchData()
+        if (state.loggedIn) {
+            fetchData()
 
-        getCountries()
-            .then((response) => {
-                dispatch({type: 'setCountries', countries: response.data})
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }, [])
+            getCountries()
+                .then((response) => {
+                    dispatch({type: 'setCountries', countries: response.data})
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    }, [state.loggedIn])
 
     if (state.loading)
         return <div>Loading...</div>
@@ -76,7 +85,28 @@ function App(props) {
         <Router>
             <div>
                 <Switch>
+                    <Route exact path="/" render={routeProps => {
+                        if (state.loggedIn)
+                            return <Redirect to={{pathname: "/trips"}}/>
+
+                        return <LoginForm failedPreviousAttempt={state.failedLogin} onSubmit={(email, password) => {
+                            dispatch({type: 'load'})
+
+                            login(email, password).then((response) => {
+                                localStorage.setItem('token', response.data.bearer_token)
+
+                                dispatch({type: 'login'})
+                            }).catch(() => {
+                                dispatch({type: 'failLogin'})
+                            }).finally(() => {
+                                dispatch({type: 'loaded'})
+                            })
+                        }} />
+                    }} />
                     <Route exact path="/trips" render={routeProps => {
+                        if (!state.loggedIn)
+                            return <Redirect to={{pathname: "/"}}/>
+
                         if (state.trip)
                             dispatch({type: 'unsetTrip'})
 
@@ -84,16 +114,25 @@ function App(props) {
                             deleteTrip(id).then(() => fetchData())
                         }} />
                     }} />
-                    <Route exact path="/trips/add">
-                        <TripAddForm countries={state.countries} onSubmit={(trip) => addTrip(trip).then(() => fetchData())} />
-                    </Route>
+                    <Route exact path="/trips/add" render={routeProps => {
+                        if (!state.loggedIn)
+                            return <Redirect to={{pathname: "/"}}/>
+
+                        return <TripAddForm countries={state.countries} onSubmit={(trip) => addTrip(trip).then(() => fetchData())} />
+                    }} />
                     <Route exact path="/trips/:id/edit" render={routeProps => {
+                        if (!state.loggedIn)
+                            return <Redirect to={{pathname: "/"}}/>
+
                         if (state.trip)
                             return <TripEditForm countries={state.countries} trip={state.trip} onSubmit={(trip) => editTrip(trip).then(() => fetchData())} />
 
                         fetchTrip(routeProps.match.params.id)
                     }} />
                     <Route path="/trips/:id" render={routeProps => {
+                        if (!state.loggedIn)
+                            return <Redirect to={{pathname: "/"}}/>
+
                         if (state.trip)
                             return <TripDetails data={state.trip} />
 

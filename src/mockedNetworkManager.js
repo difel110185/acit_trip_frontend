@@ -47,3 +47,15 @@ export function deleteTrip(id) {
         resolutionFunc();
     });
 }
+
+export function login(email, password) {
+    console.log("LOGIN")
+    console.log(email)
+    console.log(password)
+    return new Promise((resolutionFunc, rejectionFunc) => {
+        if (password === "123456")
+            resolutionFunc({data: {bearer_token: "ACCESS TOKEN XUXA"}});
+
+        rejectionFunc()
+    });
+}
