@@ -85,7 +85,7 @@ function App(props) {
 
     return (
         <Router>
-            {state.loggedIn && <Button style={{marginBottom: 20}} onClick={() => {
+            {state.loggedIn && <Button variant="danger" style={{marginBottom: 20}} onClick={() => {
                 dispatch({type: 'logout'})
             }}>Logout</Button>}
 
@@ -95,37 +95,43 @@ function App(props) {
                         if (state.loggedIn)
                             return <Redirect to={{pathname: "/trips"}}/>
 
-                        return <UserAddForm onSubmit={(user) => {
-                            dispatch({type: 'load'})
+                        return <div>
+                                <Button href={"/"} variant={"secondary"} style={{marginBottom: 20}}>Login</Button>
+                                <UserAddForm onSubmit={(user) => {
+                                dispatch({type: 'load'})
 
-                            addUser(user).then((response) => {
-                                localStorage.setItem('token', response.data.bearer_token)
+                                addUser(user).then((response) => {
+                                    localStorage.setItem('token', response.data.bearer_token)
 
-                                dispatch({type: 'login'})
-                            }).catch(() => {
-                                dispatch({type: 'failLogin'})
-                            }).finally(() => {
-                                dispatch({type: 'loaded'})
-                            })
-                        }} />
+                                    dispatch({type: 'login'})
+                                }).catch(() => {
+                                    dispatch({type: 'failLogin'})
+                                }).finally(() => {
+                                    dispatch({type: 'loaded'})
+                                })
+                            }} />
+                        </div>
                     }} />
                     <Route exact path="/" render={routeProps => {
                         if (state.loggedIn)
                             return <Redirect to={{pathname: "/trips"}}/>
 
-                        return <LoginForm failedPreviousAttempt={state.failedLogin} onSubmit={(email, password) => {
-                            dispatch({type: 'load'})
+                        return <div>
+                            <Button href={"/register"} variant={"secondary"} style={{marginBottom: 20}}>Register</Button>
+                            <LoginForm failedPreviousAttempt={state.failedLogin} onSubmit={(email, password) => {
+                                dispatch({type: 'load'})
 
-                            login(email, password).then((response) => {
-                                localStorage.setItem('token', response.data.bearer_token)
+                                login(email, password).then((response) => {
+                                    localStorage.setItem('token', response.data.bearer_token)
 
-                                dispatch({type: 'login'})
-                            }).catch(() => {
-                                dispatch({type: 'failLogin'})
-                            }).finally(() => {
-                                dispatch({type: 'loaded'})
-                            })
-                        }} />
+                                    dispatch({type: 'login'})
+                                }).catch(() => {
+                                    dispatch({type: 'failLogin'})
+                                }).finally(() => {
+                                    dispatch({type: 'loaded'})
+                                })
+                            }} />
+                        </div>
                     }} />
                     <Route exact path="/trips" render={routeProps => {
                         if (!state.loggedIn)

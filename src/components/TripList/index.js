@@ -10,7 +10,7 @@ function TripList(props) {
 
     return (
         <div>
-            <Button variant="primary" onClick={() => {
+            <Button variant="secondary" style={{marginBottom: 20}} onClick={() => {
                 history.push(`/trips/add`)
             }}>
                 Add trip
