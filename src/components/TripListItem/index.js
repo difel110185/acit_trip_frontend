@@ -12,7 +12,7 @@ function TripListItem(props) {
             <Card.Img variant="top" src={`data:image/jpeg;base64,${props.data.image}`} alt={props.data.name} />
             <Card.Body>
                 <Card.Title>{props.data.name}</Card.Title>
-                <Card.Text>{props.data.description}</Card.Text>
+                <Card.Text><b>Description:</b> {props.data.description}</Card.Text>
                 <Button variant="primary" onClick={() => history.push(`/trips/${props.data.id}`)} style={{marginRight: 10}}>Details</Button>
                 <Button variant="warning" onClick={() => history.push(`/trips/${props.data.id}/edit`)} style={{marginRight: 10}}>Edit</Button>
                 <Button variant="danger" onClick={() => {
