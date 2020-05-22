@@ -47,7 +47,7 @@ test("Renders the city dates", () => {
 test("Renders the city temperatures", () => {
     let { queryByText } = render(<TripDetails data={fakeData} />)
     fakeData.cities.forEach((city) => {
-        let temperature = queryByText(`Temperature: ${(city.temperature_in_kelvin - 273.15).toFixed(0)}°C (${city.temp_desc})`)
+        let temperature = queryByText(`${(city.temperature_in_kelvin - 273.15).toFixed(0)}°C (${city.temp_desc})`)
         expect(temperature).toBeInTheDocument()
     })
 })

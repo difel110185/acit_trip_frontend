@@ -18,6 +18,7 @@ function TripDetails(props) {
         <div>
             <h1>{props.data.name}</h1>
             <Image src={`data:image/jpeg;base64,${props.data.image}`} alt={props.data.name} width={300} />
+            <p>{props.data.description}</p>
             {props.data.currency === "Local currency is not supported!" &&
                 <div>
                     <p><b>Countries currency is not supported!</b></p>
@@ -28,7 +29,6 @@ function TripDetails(props) {
                 <div>
                     <p><b>Currency Exchange rate of $1 CAD to Local Currency:</b> {props.data.currency}</p>
                 </div>
-
             }
 
             {props.data.cities.length > 0 &&
