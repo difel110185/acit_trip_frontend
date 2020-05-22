@@ -40,6 +40,15 @@ function TripDetails(props) {
                                             <div>
                                                 <p><b>Temperature:</b> {(city.temperature_in_kelvin - 273.15).toFixed(0)}°C ({city.temp_desc})</p>
                                             </div>
+                                            <div>
+                                                <p><b>Local Restaurant</b></p>
+                                                <p><b>Name: </b>{city.yelpname} </p>
+                                                <p><b>Location: </b>{city.location} </p>
+                                                <p><b>Phone: </b>{city.phone} </p>
+                                                <p><b>Price: </b>{city.price} </p>
+                                                <p><b>Rating: </b>{city.rating} </p>
+                                                <p><b>Link: </b>{city.url} </p>
+                                            </div>
                                             
                                         </Card.Body>
                                     </Accordion.Collapse>
