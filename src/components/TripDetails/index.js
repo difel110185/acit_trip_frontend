@@ -18,9 +18,18 @@ function TripDetails(props) {
         <div>
             <h1>{props.data.name}</h1>
             <Image src={`data:image/jpeg;base64,${props.data.image}`} alt={props.data.name} width={300} />
-            <p><b>Description: </b>{props.data.description}</p>
-            <p><b>Currency Rate 1 CAD to Local:</b> {props.data.currency}</p>
-            
+            {props.data.currency === "Local currency is not supported!" &&
+                <div>
+                    <p><b>Countries currency is not supported!</b></p>
+                    <p><b>For a list of supported currencies </b><a href={"http://www.bankofcanada.ca/rates/exchange/daily-exchange-rates/"}>Click here!</a></p>
+                </div>
+            }
+            {props.data.currency !== "Local currency is not supported!" &&
+                <div>
+                    <p><b>Currency Exchange rate of $1 CAD to Local Currency:</b> {props.data.currency}</p>
+                </div>
+
+            }
 
             {props.data.cities.length > 0 &&
                 <div>
@@ -41,13 +50,23 @@ function TripDetails(props) {
                                                 <p><b>Temperature:</b> {(city.temperature_in_kelvin - 273.15).toFixed(0)}°C ({city.temp_desc})</p>
                                             </div>
                                             <div>
-                                                <p><b>Local Restaurant</b></p>
-                                                <p><b>Name: </b>{city.yelpname} </p>
-                                                <p><b>Location: </b>{city.location} </p>
-                                                <p><b>Phone: </b>{city.phone} </p>
-                                                <p><b>Price: </b>{city.price} </p>
-                                                <p><b>Rating: </b>{city.rating} </p>
-                                                <p><b>Link: </b>{city.url} </p>
+                                                {city.yelpname === "Country not Supported" &&
+                                                <div>
+                                                    <p><b>Country is not supported by Yelp!</b></p>
+                                                    <p><b>For a list of supported countries </b><a href={"https://www.yelp.com/developers/documentation/v3/supported_locales"}>Click here!</a></p>
+                                                </div>
+                                                }
+                                                {city.yelpname !== "Country not Supported" &&
+                                                <div>
+                                                    <p><b>Local Restaurant</b></p>
+                                                    <p><b>Name: </b>{city.yelpname} </p>
+                                                    <p><b>Location: </b>{city.location} </p>
+                                                    <p><b>Phone: </b>{city.phone} </p>
+                                                    <p><b>Price: </b>{city.price} </p>
+                                                    <p><b>Rating: </b>{city.rating} </p>
+                                                    <p><b>Link: </b><a href={city.url}>Click here to go to Yelp Page</a> </p>
+                                                </div>
+                                                }
                                             </div>
                                             
                                         </Card.Body>
